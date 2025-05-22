@@ -10,12 +10,12 @@ import { ParceirosModule } from 'src/parceiros/parceiros.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5433,
-      username: 'seu_usuario',
-      password: 'sua_senha',
-      database: 'seu_banco',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'projetoextensao',
       autoLoadEntities: true,
-      synchronize: true, // cuidado em produção!
+      synchronize: true,
     }),
     LoginModule,
     EventosModule,
