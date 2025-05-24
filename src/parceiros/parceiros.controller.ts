@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ParceirosService } from './parceiros.service';
+import { ParceiroService } from './parceiros.service';
 import { CreateParceiroDto } from './dto/create-parceiro.dto';
 import { UpdateParceiroDto } from './dto/update-parceiro.dto';
 
 @Controller('parceiros')
 export class ParceirosController {
-  constructor(private readonly parceirosService: ParceirosService) {}
+  constructor(private readonly parceirosService: ParceiroService) {}
 
   @Post()
   create(@Body() createParceiroDto: CreateParceiroDto) {

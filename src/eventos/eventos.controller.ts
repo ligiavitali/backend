@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EventosService } from './eventos.service';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { EventoService } from './eventos.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
 
 @Controller('eventos')
-export class EventosController {
-  constructor(private readonly eventosService: EventosService) {}
-
-  @Post()
-  create(@Body() createEventoDto: CreateEventoDto) {
-    return this.eventosService.create(createEventoDto);
-  }
+export class EventoController {
+  constructor(private readonly eventoService: EventoService) {}
 
   @Get()
   findAll() {
-    return this.eventosService.findAll();
+    return this.eventoService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.eventosService.findOne(+id);
+    return this.eventoService.findOne(+id);
+  }
+
+  @Post()
+  create(@Body() createEventoDto: CreateEventoDto) {
+    return this.eventoService.create(createEventoDto);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
-    return this.eventosService.update(+id, updateEventoDto);
+    return this.eventoService.update(+id, updateEventoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.eventosService.remove(+id);
+    return this.eventoService.remove(+id);
   }
 }
