@@ -14,4 +14,3 @@ export class NoticiaEntity {
   @Column('text', { nullable: true })
   imagem_url: string;
 }
-

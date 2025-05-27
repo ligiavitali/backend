@@ -20,7 +20,7 @@ import { ParceirosModule } from 'src/parceiros/parceiros.module';
     LoginModule,
     EventosModule,
     ParceirosModule,
-    NoticiasModule
+    NoticiasModule,
   ],
 })
 export class AppModule {}
