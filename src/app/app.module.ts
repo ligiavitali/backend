@@ -12,7 +12,7 @@ import { ParceirosModule } from 'src/parceiros/parceiros.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: '123',
       database: 'projetoextensao',
       autoLoadEntities: true,
       synchronize: true,

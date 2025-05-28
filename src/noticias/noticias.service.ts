@@ -20,58 +20,41 @@ export class NoticiaService {
 
   async findOne(id: number): Promise<NoticiaEntity> {
     const noticia = await this.noticiaRepository.findOne({ where: { id } });
-
     if (!noticia) {
       throw new NotFoundException('Notícia não encontrada!');
     }
-
     return noticia;
   }
 
-  async create(createNoticiaDto: CreateNoticiaDto): Promise<NoticiaEntity> {
-    const noticia = this.noticiaRepository.create(createNoticiaDto);
-    return this.noticiaRepository.save(noticia);
+async create(
+  createNoticiaDto: CreateNoticiaDto,
+  file?: Express.Multer.File,
+): Promise<NoticiaEntity> {
+  if (file) {
+const dir = path.resolve(process.cwd(), 'src', 'pictures');
+    await fs.mkdir(dir, { recursive: true });
+
+    const filePath = path.join(dir, file.originalname);
+    await fs.writeFile(filePath, file.buffer);
+
+    createNoticiaDto.imagem_url = `pictures/${file.originalname}`;
   }
+
+  const noticia = this.noticiaRepository.create(createNoticiaDto);
+  return this.noticiaRepository.save(noticia);
+}
 
   async update(
     id: number,
     updateNoticiaDto: UpdateNoticiaDto,
   ): Promise<NoticiaEntity> {
     const noticia = await this.findOne(id);
-
-    const updatedNoticia = this.noticiaRepository.merge(
-      noticia,
-      updateNoticiaDto,
-    );
+    const updatedNoticia = this.noticiaRepository.merge(noticia, updateNoticiaDto);
     return this.noticiaRepository.save(updatedNoticia);
   }
 
   async remove(id: number): Promise<NoticiaEntity> {
     const noticia = await this.findOne(id);
     return this.noticiaRepository.remove(noticia);
-  }
-
-  async uploadFile(file: Express.Multer.File) {
-    const filePath = path.resolve(process.cwd(), 'pictures', file.originalname);
-    await fs.writeFile(filePath, file.buffer);
-
-    return { originalname: file.originalname };
-  }
-
-  async uploadFiles(files: Array<Express.Multer.File>) {
-    const fileList: any[] = [];
-    await Promise.all(
-      files.map(async (file) => {
-        const filePath = path.resolve(
-          process.cwd(),
-          'pictures',
-          file.originalname,
-        );
-        await fs.writeFile(filePath, file.buffer);
-        fileList.push({ originalname: file.originalname });
-      }),
-    );
-
-    return fileList;
   }
 }

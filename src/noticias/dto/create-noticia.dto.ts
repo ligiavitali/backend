@@ -12,6 +12,5 @@ export class CreateNoticiaDto {
 
   @IsOptional()
   @IsString({ message: 'A URL da imagem deve ser uma string.' })
-  imagem_url?: string;
+  imagem_url?: string; // Este campo será preenchido pelo service se o arquivo for enviado
 }
-
