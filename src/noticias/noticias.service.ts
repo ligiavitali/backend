@@ -26,30 +26,45 @@ export class NoticiaService {
     return noticia;
   }
 
-async create(
-  createNoticiaDto: CreateNoticiaDto,
-  file?: Express.Multer.File,
-): Promise<NoticiaEntity> {
-  if (file) {
-const dir = path.resolve(process.cwd(), 'src', 'pictures');
-    await fs.mkdir(dir, { recursive: true });
+  async create(
+    createNoticiaDto: CreateNoticiaDto,
+    file?: Express.Multer.File,
+  ): Promise<NoticiaEntity> {
+    if (file) {
+      const dir = path.resolve(process.cwd(), 'src', 'pictures');
+      await fs.mkdir(dir, { recursive: true });
 
-    const filePath = path.join(dir, file.originalname);
-    await fs.writeFile(filePath, file.buffer);
+      const filePath = path.join(dir, file.originalname);
+      await fs.writeFile(filePath, file.buffer);
 
-    createNoticiaDto.imagem_url = `pictures/${file.originalname}`;
+      createNoticiaDto.imagem_url = `pictures/${file.originalname}`;
+    }
+
+    const noticia = this.noticiaRepository.create(createNoticiaDto);
+    return this.noticiaRepository.save(noticia);
   }
-
-  const noticia = this.noticiaRepository.create(createNoticiaDto);
-  return this.noticiaRepository.save(noticia);
-}
 
   async update(
     id: number,
     updateNoticiaDto: UpdateNoticiaDto,
+    file?: Express.Multer.File,
   ): Promise<NoticiaEntity> {
     const noticia = await this.findOne(id);
-    const updatedNoticia = this.noticiaRepository.merge(noticia, updateNoticiaDto);
+
+    if (file) {
+      const dir = path.resolve(process.cwd(), 'src', 'pictures');
+      await fs.mkdir(dir, { recursive: true });
+
+      const filePath = path.join(dir, file.originalname);
+      await fs.writeFile(filePath, file.buffer);
+
+      updateNoticiaDto.imagem_url = `pictures/${file.originalname}`;
+    }
+
+    const updatedNoticia = this.noticiaRepository.merge(
+      noticia,
+      updateNoticiaDto,
+    );
     return this.noticiaRepository.save(updatedNoticia);
   }
 

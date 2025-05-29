@@ -38,8 +38,13 @@ export class NoticiaController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateNoticiaDto: UpdateNoticiaDto) {
-    return this.noticiaService.update(+id, updateNoticiaDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() updateNoticiaDto: UpdateNoticiaDto,
+  ) {
+    return this.noticiaService.update(+id, updateNoticiaDto, file);
   }
 
   @Delete(':id')

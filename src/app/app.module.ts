@@ -5,12 +5,19 @@ import { EventosModule } from 'src/eventos/eventos.module';
 import { LoginModule } from 'src/login/login.module';
 import { NoticiasModule } from 'src/noticias/noticias.module';
 import { ParceirosModule } from 'src/parceiros/parceiros.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+    }),
+
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(process.cwd(), 'src', 'pictures'),
+      serveRoot: '/img/pictures', // http://localhost:3001/img/pictures/
     }),
 
     TypeOrmModule.forRoot({
