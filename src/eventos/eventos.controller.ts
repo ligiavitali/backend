@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, UploadedFile, Put } from '@nestjs/common';
 import { EventoService } from './eventos.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('eventos')
 export class EventoController {
@@ -18,11 +19,15 @@ export class EventoController {
   }
 
   @Post()
-  create(@Body() createEventoDto: CreateEventoDto) {
-    return this.eventoService.create(createEventoDto);
-  }
-
-  @Patch(':id')
+ @UseInterceptors(FileInterceptor('file'))
+   async create(
+     @UploadedFile() file: Express.Multer.File,
+     @Body() createEventoDto: CreateEventoDto,
+   ) {
+     return this.eventoService.create(createEventoDto, file);
+   }
+ 
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
     return this.eventoService.update(+id, updateEventoDto);
   }

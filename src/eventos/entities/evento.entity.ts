@@ -18,6 +18,6 @@ export class EventoEntity {
   local: string;
 
   @Column('text', { nullable: true })
-  imagem_url?: string;
+  imagem_url: string;
 }
 
