@@ -28,10 +28,14 @@ export class EventoController {
    }
  
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
-    return this.eventoService.update(+id, updateEventoDto);
-  }
-
+   @UseInterceptors(FileInterceptor('file'))
+    async update(
+      @Param('id') id: string,
+      @UploadedFile() file: Express.Multer.File,
+      @Body() updateEventoDto: UpdateEventoDto,
+    ) {
+      return this.eventoService.update(+id, updateEventoDto, file);
+    }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventoService.remove(+id);

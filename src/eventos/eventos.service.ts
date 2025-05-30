@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { EventoEntity } from './entities/evento.entity';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
-import path from 'path';
+import * as path from 'path';
 import * as fs from 'fs/promises';
 
 @Injectable()
@@ -46,9 +46,27 @@ export class EventoService {
     return this.eventoRepository.save(evento);
   }
 
-  async update(id: number, updateEventoDto: UpdateEventoDto): Promise<EventoEntity> {
-    const evento = await this.findOne(id);
-    const updatedEvento = this.eventoRepository.merge(evento, updateEventoDto);
+ async update(
+     id: number,
+     updateEventoDto: UpdateEventoDto,
+     file?: Express.Multer.File,
+   ): Promise<EventoEntity> {
+     const evento = await this.findOne(id);
+ 
+     if (file) {
+       const dir = path.resolve(process.cwd(), 'src', 'pictures');
+       await fs.mkdir(dir, { recursive: true });
+ 
+       const filePath = path.join(dir, file.originalname);
+       await fs.writeFile(filePath, file.buffer);
+ 
+       updateEventoDto.imagem_url = `pictures/${file.originalname}`;
+     }
+ 
+     const updatedEvento = this.eventoRepository.merge(
+       evento,
+       updateEventoDto,
+     );
     return this.eventoRepository.save(updatedEvento);
   }
 
