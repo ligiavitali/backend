@@ -8,6 +8,7 @@ import { ParceirosModule } from 'src/parceiros/parceiros.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MailerModule } from './email/mailer.module';
 import * as path from 'path';
+import { OficinasModule } from 'src/oficinas/oficinas.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import * as path from 'path';
     EventosModule,
     ParceirosModule,
     NoticiasModule,
+    OficinasModule,
     MailerModule,
   ],
 })
