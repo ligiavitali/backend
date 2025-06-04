@@ -11,21 +11,23 @@ export class MailerService {
       port: 587,
       secure: false,
       auth: {
-        user: 'lourdes46@ethereal.email',
-        pass: 'sk2ATN7uBu5a6xgukF',
+        user: 'heidi86@ethereal.email',
+        pass: 'MyT3q5bzafb3cYSJVw',
       },
     });
   }
 
-  async sendEmail(to: string, subject: string, content: string): Promise<void> {
+  async sendEmail(to: string, subject: string, text: string): Promise<void> {
     const mailOptions = {
       from: '"Sistema" <no-reply@sistema.com>',
       to,
       subject,
-      text: content,
+      text,
     };
 
     const info = await this.transporter.sendMail(mailOptions);
+
+    console.log('E-mail enviado. ID:', info.messageId);
     console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
   }
 }
