@@ -11,8 +11,8 @@ export class MailerService {
       port: 587,
       secure: false,
       auth: {
-        user: 'lourdes46@ethereal.email',
-        pass: 'sk2ATN7uBu5a6xgukF',
+         user: 'leonardo17@ethereal.email',
+        pass: 'mHFca937yH8K8W448j'
       },
     });
   }
