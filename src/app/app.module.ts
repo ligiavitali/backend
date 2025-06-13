@@ -9,6 +9,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { MailerModule } from './email/mailer.module';
 import * as path from 'path';
 import { OficinasModule } from 'src/oficinas/oficinas.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { OficinasModule } from 'src/oficinas/oficinas.module';
     NoticiasModule,
     OficinasModule,
     MailerModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
