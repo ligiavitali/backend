@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { EventoEntity } from './entities/evento.entity';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
@@ -14,9 +14,36 @@ export class EventoService {
     private readonly eventoRepository: Repository<EventoEntity>,
   ) {}
 
+
+
   async findAll(): Promise<EventoEntity[]> {
-    return this.eventoRepository.find();
-  }
+  return this.eventoRepository.find({
+    order: { data_evento: 'ASC' },
+  });
+}
+
+
+
+  async findFuturos(): Promise<EventoEntity[]> {
+  const hoje = new Date();
+  
+  hoje.setHours(0, 0, 0, 0); // <-- Zera hora, minutos, segundos e milissegundos
+  return this.eventoRepository.find({
+    where: { data_evento: MoreThanOrEqual(hoje) },
+    order: { data_evento: 'ASC' },
+  });
+}
+
+async findRealizados(): Promise<EventoEntity[]> {
+  const hoje = new Date();
+  
+hoje.setHours(0, 0, 0, 0); // <-- Zera hora, minutos, segundos e milissegundos
+
+  return this.eventoRepository.find({
+    where: { data_evento: LessThan(hoje) },
+    order: { data_evento: 'DESC' },
+  });
+}
 
   async findOne(id: number): Promise<EventoEntity> {
     const evento = await this.eventoRepository.findOne({ where: { id } });

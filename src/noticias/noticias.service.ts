@@ -10,6 +10,7 @@ import * as fs from 'fs/promises';
 
 @Injectable()
 export class NoticiaService {
+
   constructor(
     @InjectRepository(NoticiaEntity)
     private readonly noticiaRepository: Repository<NoticiaEntity>,

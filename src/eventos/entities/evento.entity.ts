@@ -12,7 +12,7 @@ export class EventoEntity {
   descricao: string;
 
   @Column('date')
-  data_evento: string;
+  data_evento: Date;
 
   @Column({ length: 150 })
   local: string;

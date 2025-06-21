@@ -8,9 +8,19 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class EventoController {
   constructor(private readonly eventoService: EventoService) {}
 
-  @Get()
+   @Get()
   findAll() {
     return this.eventoService.findAll();
+  }
+
+  @Get('futuros')
+  findFuturos() {
+    return this.eventoService.findFuturos();
+  }
+
+  @Get('realizados')
+  findRealizados() {
+    return this.eventoService.findRealizados();
   }
 
   @Get(':id')
@@ -36,6 +46,7 @@ export class EventoController {
     ) {
       return this.eventoService.update(+id, updateEventoDto, file);
     }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventoService.remove(+id);

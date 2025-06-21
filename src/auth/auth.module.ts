@@ -13,7 +13,7 @@ import { PassportModule } from '@nestjs/passport';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'CHAVEDECRIPTOGRAFIA',
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '5m' },
     }),
   ],
   controllers: [AuthController],
